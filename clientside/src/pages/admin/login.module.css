@@ -1,0 +1,117 @@
+/* src/pages/login.module.css */
+
+/* Background settings for body */
+body {
+    background-image: url('./dash1.png'); /* Ensure the correct path to your image */
+    background-size: cover; 
+    background-position: center; 
+    background-repeat: no-repeat; 
+    height: 100vh; 
+    margin: 0; 
+}
+
+/* Container styling */
+.container {
+    max-width: 400px;
+    margin: auto;
+    padding: 30px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent background */
+    transition: box-shadow 0.3s ease;
+    margin-top: 50px;
+}
+
+/* Hover effect on container */
+.container:hover {
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* Header styling */
+.header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Header text styles */
+.header h1 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+/* Form styling */
+.form {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Form group styling */
+.formGroup {
+    margin-bottom: 20px;
+}
+
+/* Input styles */
+.formGroup input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+.formGroup input:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+/* Button container */
+.buttonContainer {
+    display: flex;
+    justify-content: center;
+}
+
+/* Button styles */
+.btnPrimary {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btnPrimary:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+/* Link styles */
+.signupLink {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+.signupLink a {
+    color: #007bff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.signupLink a:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+/* Error message styling */
+.error {
+    color: red;
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: bold;
+}

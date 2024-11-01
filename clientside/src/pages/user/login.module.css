@@ -1,0 +1,111 @@
+/* src/pages/login.module.css */
+
+/* Add this to set a background image for the body */
+body {
+    background-image: url('./dash.png'); /* Replace with your image path */
+    background-size: cover; /* Makes the image cover the entire background */
+    background-position: center; /* Centers the background image */
+    background-repeat: no-repeat; /* Prevents the image from repeating */
+    height: 100vh; /* Makes sure the background covers the full height of the viewport */
+    margin: 0; /* Resets margin */
+}
+
+/* Existing styles */
+.container {
+    max-width: 400px;
+    margin: auto;
+    padding: 30px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent background */
+    transition: box-shadow 0.3s ease;
+    margin-top: 10px;
+}
+
+.container:hover {
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.header h1 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.header p {
+    font-size: 14px;
+    color: #666;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+}
+
+.formGroup {
+    margin-bottom: 20px;
+}
+
+.formGroup label {
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.formGroup input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+.formGroup input:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.buttonContainer {
+    display: flex;
+    justify-content: center;
+}
+
+.btnPrimary {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btnPrimary:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+.signupLink {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+.signupLink a {
+    color: #007bff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.signupLink a:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}

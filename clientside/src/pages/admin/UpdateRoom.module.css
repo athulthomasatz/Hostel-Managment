@@ -1,0 +1,56 @@
+/* UpdateRoom.module.css */
+.container {
+    max-width: 500px; /* Set a maximum width for the form */
+    margin: 40px auto; /* Center the form on the page */
+    padding: 20px; /* Add padding inside the container */
+    border: 1px solid #ccc; /* Light border around the form */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Slight shadow for depth */
+    background-color: #fff; /* White background for better contrast */
+}
+
+h1 {
+    text-align: center; /* Center the header */
+    margin-bottom: 20px; /* Space below the header */
+    color: #333; /* Darker color for the header */
+}
+
+.formGroup {
+    margin-bottom: 15px; /* Space between form groups */
+}
+
+label {
+    display: block; /* Labels as block elements for better layout */
+    margin-bottom: 5px; /* Space below labels */
+    font-weight: bold; /* Bold font for labels */
+}
+
+input,
+select {
+    width: 100%; /* Full width inputs and selects */
+    padding: 10px; /* Padding inside the inputs */
+    border: 1px solid #ccc; /* Border around the inputs */
+    border-radius: 5px; /* Rounded corners */
+    font-size: 16px; /* Font size for readability */
+}
+
+input:focus,
+select:focus {
+    border-color: #007bff; /* Change border color on focus */
+    outline: none; /* Remove default outline */
+}
+
+.btnPrimary {
+    background-color: #007bff; /* Primary button color */
+    color: white; /* White text for button */
+    border: none; /* No border */
+    padding: 10px 20px; /* Padding inside the button */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    font-size: 16px; /* Font size for button text */
+    transition: background-color 0.3s; /* Smooth transition for background color */
+}
+
+.btnPrimary:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}

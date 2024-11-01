@@ -1,0 +1,43 @@
+/* Define CSS Variables */
+:root {
+    --navbar-bg-color:  rgb(36, 56, 125);
+    --text-color: rgb(211, 243, 80);
+    --button-bg-color:   rgb(36, 56, 125);
+    /* --navbar-bg-image: url('/dash1.jpg'); */
+  }
+  
+  /* Navbar Styles */
+  .navbar {
+    background-color: var(--navbar-bg-color);
+    background-image: var(--navbar-bg-image);
+    color: var(--text-color);
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 30px;
+    align-items: center;
+    margin-bottom: 0; /* Remove bottom margin */
+  }
+  
+  .navTitle {
+    font-size: 1.8rem;
+    color: var(--text-color);
+  }
+  
+  .navLinks {
+    display: flex;
+    gap: 20px;
+  }
+  
+  .btnPrimary {
+    background-color: var(--button-bg-color);
+    color: var(--text-color);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .welcomeText {
+    color: var(--text-color);
+    font-size: 1rem;
+  }
+  
