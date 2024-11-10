@@ -1,53 +1,47 @@
-import React, { useContext } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import Navbar from './Navbar'
-// import { AuthContext } from '../AuthContext';
-// Import the AuthContext to get the user data
-import { useAuth } from '../../AuthContext';  // Adjust the path if needed
+import React from 'react';
+import { Link } from 'react-router-dom';
+import Navbar from './Navbar';
+import styles from './dash.module.css';
+import hostelImage from '../../assets/dash.png';
+// Replace with the path to your image
 
-import styles from './dash.module.css';  // Importing the CSS module
-// const CurrentLocation = () => {
-//   const location = useLocation(); 
-// }// Get the current location
 export default function Dashboard() {
   return (
     <>
       <Navbar />
-      <div className={styles.container}>
-        <div className="row">
-          {/* Room Status Section */}
-          <div className="col-md-4">
-            <div className={`card text-center ${styles.card}`} style={{ backgroundImage: 'url("assets/room-status.png")' }}>
-              <Link to="/roomstatus" className={styles.cardLink}>
-                <h3 className={styles.cardTitle}>Room Status / Booking</h3>
-              </Link>
-            </div>
+      <div className={styles.dashboardContainer}>
+        {/* Intro Section with Paragraph and Image */}
+        <div className={styles.introSection}>
+          {/* Left Side: Paragraph about the hostel */}
+          <div className={styles.introText}>
+            <h2>Welcome to Our Hostel Management</h2>
+            <p>
+              Discover a welcoming and comfortable environment at our hostel, designed to offer
+              students a home away from home. With secure and modern facilities, we provide all
+              amenities necessary for a successful and enjoyable stay. From spacious rooms to
+              convenient services, we ensure our residents experience the best of hostel life.
+            </p>
           </div>
-
-          {/* Profile Section */}
-          <div className="col-md-4">
-            <div className={`card text-center ${styles.card}`} style={{ backgroundImage: 'url("assets/profile.png")' }}>
-              <Link to="/profile" className={styles.cardLink}>
-                <h3 className={styles.cardTitle}>Profile</h3>
-              </Link>
-            </div>
-          </div>
-
-          {/* Fee Management Section */}
-          <div className="col-md-4">
-            <div className={`card text-center ${styles.card}`} style={{ backgroundImage: 'url("assets/fee-management.png")' }}>
-              <h3 className={styles.cardTitle}>Fee Management</h3>
-            </div>
+          {/* Right Side: Image */}
+          <div className={styles.introImage}>
+            <img src={hostelImage} alt="Hostel" className={styles.image} />
           </div>
         </div>
 
-        {/* Notices Section */}
-        <div className="col-md-12">
-          <div className={`card text-center ${styles.card}`} style={{ backgroundImage: 'url("assets/notices.png")' }}>
-            <Link to="/notices" className={styles.cardLink}>
-              <h3 className={styles.cardTitle}>Notices</h3>
-            </Link>
-          </div>
+        {/* Glass Effect Buttons Section */}
+        <div className={styles.buttonsContainer}>
+          <Link to="/roomstatus" className={`${styles.glassButton} ${styles.cardLink}`}>
+            Room Status / Booking
+          </Link>
+          <Link to="/profile" className={`${styles.glassButton} ${styles.cardLink}`}>
+            Profile
+          </Link>
+          <Link to="/feemanagement" className={`${styles.glassButton} ${styles.cardLink}`}>
+            Fee Management
+          </Link>
+          <Link to="/notices" className={`${styles.glassButton} ${styles.cardLink}`}>
+            Notices
+          </Link>
         </div>
       </div>
     </>
