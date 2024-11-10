@@ -1,53 +1,178 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
 .navbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 20px;
-  background-color: #333;
-  color: white;
-  height: 100px;
+  padding: 1rem 2rem;
+  background: white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  font-family: 'Inter', sans-serif;
 }
 
 .projectTitle {
   font-size: 1.5rem;
-  color: white;
-  align-content: baseline;
-  align-self: flex-end;
+  font-weight: 700;
+  color: #2d3748;
+  margin: 0;
+  background: linear-gradient(to right, #667eea, #764ba2);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 .middleSection {
   display: flex;
-  gap: 70px;  /* Increased gap for more space between links */
-  align-content: baseline;
-  align-self: center;
+  gap: 2rem;
+  align-items: center;
 }
 
 .navLink {
-  color: white;
+  color: #4a5568;
   text-decoration: none;
-  font-weight: bold;
-  padding: 0 10px;  /* Padding to add more clickable space */
+  font-weight: 500;
+  font-size: 0.95rem;
+  padding: 0.5rem;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.navLink::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(to right, #667eea, #764ba2);
+  transform: scaleX(0);
+  transition: transform 0.2s ease;
 }
 
 .navLink:hover {
-  text-decoration: underline;
+  color: #2d3748;
+}
+
+.navLink:hover::after {
+  transform: scaleX(1);
 }
 
 .rightSection {
   display: flex;
   align-items: center;
+  gap: 1rem;
+}
+
+.welcomeText {
+  color: #4a5568;
+  font-size: 0.95rem;
+  font-weight: 500;
 }
 
 .btnPrimary {
-  background-color: #007bff;
-  border: none;
+  padding: 0.5rem 1.25rem;
+  background: linear-gradient(to right, #667eea, #764ba2);
   color: white;
-  padding: 5px 10px;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: 500;
   cursor: pointer;
-  font-size: 1rem;
-  border-radius: 4px;
+  transition: all 0.2s ease;
 }
 
 .btnPrimary:hover {
-  background-color: #0056b3;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+}
+
+.mobileMenuBtn {
+  display: none;
+  background: none;
+  border: none;
+  padding: 0.5rem;
+  cursor: pointer;
+  color: #4a5568;
+}
+
+/* Mobile Menu Styles */
+.mobileMenu {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: white;
+  padding: 1rem;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  z-index: 1001;
+}
+
+.mobileMenu.active {
+  display: flex;
+}
+
+.closeBtn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #4a5568;
+  cursor: pointer;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .navbar {
+    padding: 1rem;
+  }
+
+  .middleSection {
+    display: none;
+  }
+
+  .rightSection {
+    display: none;
+  }
+
+  .mobileMenuBtn {
+    display: block;
+  }
+
+  .mobileMenu .middleSection,
+  .mobileMenu .rightSection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .mobileMenu .navLink {
+    font-size: 1.1rem;
+  }
+
+  .mobileMenu .btnPrimary {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .projectTitle {
+    font-size: 1.25rem;
+  }
+
+  .navbar {
+    padding: 0.75rem;
+  }
 }

@@ -1,79 +1,80 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import { useAuth } from '../../AuthContext';  // Adjust the path if needed
-
-import styles from './dash.module.css';  // Importing the CSS module
+import { useAuth } from '../../AuthContext';
+import { FaBed, FaClipboardList, FaMoneyBillWave, FaBell } from 'react-icons/fa';
+import styles from './adminDashboard.module.css';
 
 export default function AdminDashboard() {
     const { user, logout } = useAuth();
 
     return (
-      <div className={styles.container}>
-        <h1 className={styles.header}>Hostel Management Admin Dashboard</h1>
-        
-        {/* Conditionally render the user's name and logout button */}
-        {user ? (
-          <>
-            <h4>Welcome, {user.name || 'Admin'}!</h4>
-            <button className={styles.btnPrimary} onClick={logout}>Logout</button>
-          </>
-        ) : (
-          <div className={styles.buttonContainer}>
-            <Link to='/login'>
-              <button className={styles.btnPrimary}>Login</button>
-            </Link>
-          </div>
-        )}
+        <div className={styles.dashboardContainer}>
+            <nav className={styles.navbar}>
+                <div className={styles.navContent}>
+                    <h1 className={styles.logo}>HMS Admin</h1>
+                    <div className={styles.userSection}>
+                        <span className={styles.username}>
+                            Welcome, {user?.name || 'Admin'}
+                        </span>
+                        <button className={styles.logoutButton} onClick={logout}>
+                            Logout
+                        </button>
+                    </div>
+                </div>
+            </nav>
 
-        <div className="row">
-          {/* Add/Update Room Section */} 
-          <div className="col-md-4">
-            <div className={`card text-center ${styles.card}`}>
-              <div className="card-body">
-                <Link to='/room-management' className="btn btn-link">
-                  <h3 className={styles.cardTitle}>Add/Update Room</h3>
-                </Link>
-                <p className={styles.cardText}>Manage room details, availability, and assignments.</p>
-              </div>
-            </div>
-          </div>
-          {/* view booked rooms and details Section */}
+            <div className={styles.mainContent}>
+                <header className={styles.dashboardHeader}>
+                    <h1>Hostel Management Dashboard</h1>
+                    <p>Manage your hostel operations efficiently</p>
+                </header>
 
-          <div className="col-md-4">
-            <div className={`card text-center ${styles.card}`}>
-              <div className="card-body">
-                <Link to='/admin/bookings' className="btn btn-link">
-                  <h3 className={styles.cardTitle}>View Booked Room Status</h3>
-                </Link>
-                <p className={styles.cardText}>Manage booked room details</p>
-              </div>
-            </div>
-          </div>
+                <div className={styles.cardGrid}>
+                    <Link to="/room-management" className={styles.card}>
+                        <div className={styles.cardIcon}>
+                            <FaBed />
+                        </div>
+                        <div className={styles.cardContent}>
+                            <h3>Room Management</h3>
+                            <p>Add, update, and manage room details</p>
+                        </div>
+                        <div className={styles.cardArrow}>→</div>
+                    </Link>
 
-          {/* Track Fee Payment Section */}
-          <div className="col-md-4">
-            <div className={`card text-center ${styles.card}`}>
-              <div className="card-body">
-                <Link to='/admin/track-fees' className="btn btn-link">
-                  <h3 className={styles.cardTitle}>Track Fee Payments</h3>
-                </Link>
-                <p className={styles.cardText}>Monitor fee payments and manage outstanding balances.</p>
-              </div>
-            </div>
-          </div>
+                    <Link to="/admin/bookings" className={styles.card}>
+                        <div className={styles.cardIcon}>
+                            <FaClipboardList />
+                        </div>
+                        <div className={styles.cardContent}>
+                            <h3>Booking Status</h3>
+                            <p>View and manage room bookings</p>
+                        </div>
+                        <div className={styles.cardArrow}>→</div>
+                    </Link>
 
-          {/* Manage Notices Section */}
-          <div className="col-md-4">
-            <div className={`card text-center ${styles.card}`}>
-              <div className="card-body">
-                <Link to='/admin/notices' className="btn btn-link">
-                  <h3 className={styles.cardTitle}>Manage Notices</h3>
-                </Link>
-                <p className={styles.cardText}>Post and update hostel-related notices and announcements.</p>
-              </div>
+                    <Link to="/admin/track-fees" className={styles.card}>
+                        <div className={styles.cardIcon}>
+                            <FaMoneyBillWave />
+                        </div>
+                        <div className={styles.cardContent}>
+                            <h3>Fee Management</h3>
+                            <p>Track and manage fee payments</p>
+                        </div>
+                        <div className={styles.cardArrow}>→</div>
+                    </Link>
+
+                    <Link to="/admin/notices" className={styles.card}>
+                        <div className={styles.cardIcon}>
+                            <FaBell />
+                        </div>
+                        <div className={styles.cardContent}>
+                            <h3>Notice Board</h3>
+                            <p>Post and manage announcements</p>
+                        </div>
+                        <div className={styles.cardArrow}>→</div>
+                    </Link>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
     );
 }

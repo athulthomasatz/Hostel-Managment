@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Form, Button, Spinner } from 'react-bootstrap';
+import { Spinner } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import styles from './editProfile.module.css';
 
 const EditProfile = () => {
     const [profileData, setProfileData] = useState(null);
@@ -37,7 +38,6 @@ const EditProfile = () => {
         const formData = new FormData();
         formData.append('username', profileData.username);
         formData.append('email', profileData.email);
-        // Profile photo handling is removed
 
         try {
             const response = await fetch('http://localhost:5000/auth/api/update-profile', {
@@ -52,43 +52,59 @@ const EditProfile = () => {
                 throw new Error('Network response was not ok');
             }
 
-            navigate('/profile'); // Redirect to the profile page after successful update
+            navigate('/profile');
         } catch (error) {
             console.error("Error updating profile data:", error);
             setError("Failed to update profile data");
         }
     };
 
-    if (loading) return <Spinner animation="border" />;
-    if (error) return <div>{error}</div>;
+    if (loading) return <div className={styles.loadingContainer}><Spinner animation="border" /></div>;
+    if (error) return <div className={styles.errorContainer}>{error}</div>;
 
     return (
-        <Container>
-            <h2>Edit Profile</h2>
-            <Form onSubmit={handleSubmit}>
-                <Form.Group controlId="formBasicUsername">
-                    <Form.Label>Username</Form.Label>
-                    <Form.Control
-                        type="text"
-                        value={profileData.username}
-                        onChange={(e) => setProfileData({ ...profileData, username: e.target.value })}
-                        required
-                    />
-                </Form.Group>
+        <div className={styles.container}>
+            <div className={styles.formCard}>
+                <div className={styles.formHeader}>
+                    <h2>Edit Profile</h2>
+                </div>
+                
+                <form onSubmit={handleSubmit} className={styles.form}>
+                    <div className={styles.formGroup}>
+                        <label htmlFor="username">Username</label>
+                        <input
+                            type="text"
+                            id="username"
+                            value={profileData.username}
+                            onChange={(e) => setProfileData({ ...profileData, username: e.target.value })}
+                            required
+                            className={styles.input}
+                        />
+                    </div>
 
-                <Form.Group controlId="formBasicEmail">
-                    <Form.Label>Email</Form.Label>
-                    <Form.Control
-                        type="email"
-                        value={profileData.email}
-                        onChange={(e) => setProfileData({ ...profileData, email: e.target.value })}
-                        required
-                    />
-                </Form.Group>
+                    <div className={styles.formGroup}>
+                        <label htmlFor="email">Email</label>
+                        <input
+                            type="email"
+                            id="email"
+                            value={profileData.email}
+                            onChange={(e) => setProfileData({ ...profileData, email: e.target.value })}
+                            required
+                            className={styles.input}
+                        />
+                    </div>
 
-                <Button variant="primary" type="submit">Update Profile</Button>
-            </Form>
-        </Container>
+                    <div className={styles.buttonGroup}>
+                        <button type="button" onClick={() => navigate('/profile')} className={styles.cancelButton}>
+                            Cancel
+                        </button>
+                        <button type="submit" className={styles.submitButton}>
+                            Update Profile
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
     );
 };
 

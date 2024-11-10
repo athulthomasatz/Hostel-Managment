@@ -1,32 +1,31 @@
-/* updateNotification.module.css */
 .container {
     max-width: 800px;
     margin: 2rem auto;
     padding: 0 20px;
 }
 
-.formCard {
+.paymentCard {
     background: white;
     border-radius: 12px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     overflow: hidden;
 }
 
-.formHeader {
+.cardHeader {
     background: #f8f9fa;
     padding: 1.5rem;
     border-bottom: 1px solid #eee;
     text-align: center;
 }
 
-.formHeader h2 {
+.cardHeader h2 {
     margin: 0;
     color: #2d3748;
     font-size: 1.5rem;
     margin-bottom: 0.5rem;
 }
 
-.formHeader p {
+.cardHeader p {
     margin: 0;
     color: #718096;
     font-size: 0.95rem;
@@ -34,6 +33,28 @@
 
 .form {
     padding: 2rem;
+}
+
+.amountSection {
+    background: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+}
+
+.amountSection h3 {
+    margin: 0 0 1rem 0;
+    color: #2d3748;
+    font-size: 1.1rem;
+}
+
+.amountDetails {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.25rem;
+    color: #2d3748;
+    font-weight: 500;
 }
 
 .formGroup {
@@ -48,7 +69,8 @@
     font-weight: 500;
 }
 
-.input, .textarea {
+.formGroup input,
+.formGroup select {
     width: 100%;
     padding: 0.75rem;
     border: 1px solid #e2e8f0;
@@ -58,68 +80,61 @@
     transition: all 0.2s ease;
 }
 
-.textarea {
-    resize: vertical;
-    min-height: 120px;
-}
-
-.input:focus, .textarea:focus {
+.formGroup input:focus,
+.formGroup select:focus {
     outline: none;
     border-color: #4299e1;
     box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.1);
 }
 
-.buttonGroup {
-    display: flex;
+.formRow {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     gap: 1rem;
-    margin-top: 2rem;
 }
 
-.submitButton, .cancelButton {
-    flex: 1;
-    padding: 0.75rem;
+.payButton {
+    width: 100%;
+    padding: 1rem;
+    background-color: #48bb78;
+    color: white;
     border: none;
     border-radius: 8px;
-    font-size: 1rem;
+    font-size: 1.1rem;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.2s ease;
+    margin-top: 1rem;
 }
 
-.submitButton {
-    background-color: #4299e1;
-    color: white;
-}
-
-.submitButton:hover:not(:disabled) {
-    background-color: #3182ce;
+.payButton:hover:not(:disabled) {
+    background-color: #38a169;
     transform: translateY(-1px);
 }
 
-.submitButton:disabled {
+.payButton:disabled {
     opacity: 0.7;
     cursor: not-allowed;
 }
 
-.cancelButton {
-    background-color: #e2e8f0;
-    color: #4a5568;
+.errorMessage {
+    background-color: #fff5f5;
+    color: #e53e3e;
+    padding: 0.75rem;
+    border-radius: 6px;
+    margin: 1rem 2rem;
+    text-align: center;
+    font-size: 0.9rem;
 }
 
-.cancelButton:hover {
-    background-color: #cbd5e0;
-    transform: translateY(-1px);
-}
-
-.loadingState, .errorState {
+.noBookingMessage {
     text-align: center;
     padding: 3rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     color: #4a5568;
     font-size: 1.1rem;
-}
-
-.errorState {
-    color: #e53e3e;
 }
 
 /* Responsive Design */
@@ -133,13 +148,13 @@
         padding: 1.5rem;
     }
 
-    .formHeader h2 {
-        font-size: 1.25rem;
+    .formRow {
+        grid-template-columns: 1fr;
     }
 }
 
 @media (max-width: 480px) {
-    .formCard {
+    .paymentCard {
         border-radius: 0;
         box-shadow: none;
     }
@@ -148,15 +163,16 @@
         padding: 1rem;
     }
 
-    .buttonGroup {
-        flex-direction: column;
+    .amountSection {
+        padding: 1rem;
     }
 
-    .submitButton, .cancelButton {
-        width: 100%;
+    .amountDetails {
+        font-size: 1.1rem;
     }
 
-    .input, .textarea {
+    .formGroup input,
+    .formGroup select {
         font-size: 16px; /* Prevents zoom on mobile */
     }
-}
+} 

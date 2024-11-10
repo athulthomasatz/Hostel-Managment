@@ -1,35 +1,33 @@
-/* updateNotification.module.css */
 .container {
     max-width: 800px;
     margin: 2rem auto;
     padding: 0 20px;
+    display: flex;
+    justify-content: center;
+    min-height: 80vh;
 }
 
 .formCard {
-    background: white;
+    background: var(--bg-primary);
     border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--card-shadow);
+    width: 100%;
+    max-width: 500px;
+    align-self: flex-start;
     overflow: hidden;
 }
 
 .formHeader {
-    background: #f8f9fa;
+    background: var(--bg-secondary);
     padding: 1.5rem;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid var(--border-color);
     text-align: center;
 }
 
 .formHeader h2 {
     margin: 0;
-    color: #2d3748;
+    color: var(--text-primary);
     font-size: 1.5rem;
-    margin-bottom: 0.5rem;
-}
-
-.formHeader p {
-    margin: 0;
-    color: #718096;
-    font-size: 0.95rem;
 }
 
 .form {
@@ -48,22 +46,18 @@
     font-weight: 500;
 }
 
-.input, .textarea {
+.input {
     width: 100%;
     padding: 0.75rem;
-    border: 1px solid #e2e8f0;
+    border: 1px solid var(--input-border);
     border-radius: 8px;
     font-size: 1rem;
-    background-color: #f8f9fa;
-    transition: all 0.2s ease;
+    transition: border-color 0.2s ease;
+    background-color: var(--input-bg);
+    color: var(--text-primary);
 }
 
-.textarea {
-    resize: vertical;
-    min-height: 120px;
-}
-
-.input:focus, .textarea:focus {
+.input:focus {
     outline: none;
     border-color: #4299e1;
     box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.1);
@@ -87,39 +81,40 @@
 }
 
 .submitButton {
-    background-color: #4299e1;
+    background-color: var(--button-primary);
     color: white;
 }
 
-.submitButton:hover:not(:disabled) {
-    background-color: #3182ce;
+.submitButton:hover {
+    background-color: var(--button-primary-hover);
     transform: translateY(-1px);
-}
-
-.submitButton:disabled {
-    opacity: 0.7;
-    cursor: not-allowed;
 }
 
 .cancelButton {
-    background-color: #e2e8f0;
-    color: #4a5568;
+    background-color: var(--button-secondary);
+    color: var(--text-secondary);
 }
 
 .cancelButton:hover {
-    background-color: #cbd5e0;
+    background-color: var(--button-secondary-hover);
     transform: translateY(-1px);
 }
 
-.loadingState, .errorState {
-    text-align: center;
-    padding: 3rem;
-    color: #4a5568;
-    font-size: 1.1rem;
+.loadingContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 400px;
 }
 
-.errorState {
+.errorContainer {
+    text-align: center;
     color: #e53e3e;
+    padding: 2rem;
+    background: white;
+    border-radius: 8px;
+    margin: 2rem auto;
+    max-width: 500px;
 }
 
 /* Responsive Design */
@@ -140,8 +135,8 @@
 
 @media (max-width: 480px) {
     .formCard {
-        border-radius: 0;
         box-shadow: none;
+        background: transparent;
     }
 
     .form {
@@ -156,7 +151,7 @@
         width: 100%;
     }
 
-    .input, .textarea {
+    .input {
         font-size: 16px; /* Prevents zoom on mobile */
     }
-}
+} 

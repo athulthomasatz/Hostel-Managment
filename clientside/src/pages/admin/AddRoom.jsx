@@ -1,123 +1,187 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import styles from './AddRoom.module.css'; // Optional: Create a CSS module for styling
+import styles from './AddRoom.module.css';
+
 const AddRoom = () => {
-    const [roomNo, setRoomNo] = useState('');
-    const [capacity, setCapacity] = useState('');
-    const [allocatedTo, setAllocatedTo] = useState(['']);
-    const [amenities, setAmenities] = useState(['']);
-    const [studentId, setStudentId] = useState(''); // For allocated student ID
-    const [studentName, setStudentName] = useState(''); // For allocated student name
-    const [roomType, setRoomType] = useState('Single');
-    const [feesPerSemester, setFeesPerSemester] = useState('');
+    const [roomDetails, setRoomDetails] = useState({
+        roomNo: '',
+        capacity: '',
+        amenities: [''],
+        roomType: 'Single',
+        feesPerSemester: ''
+    });
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
     const navigate = useNavigate();
 
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setRoomDetails(prev => ({
+            ...prev,
+            [name]: value
+        }));
+    };
+
     const handleAmenityChange = (index, value) => {
-        const updatedAmenities = [...amenities];
-        updatedAmenities[index] = value;
-        setAmenities(updatedAmenities);
+        const newAmenities = [...roomDetails.amenities];
+        newAmenities[index] = value;
+        setRoomDetails(prev => ({
+            ...prev,
+            amenities: newAmenities
+        }));
     };
 
     const addAmenityField = () => {
-        setAmenities([...amenities, '']);
+        setRoomDetails(prev => ({
+            ...prev,
+            amenities: [...prev.amenities, '']
+        }));
     };
 
     const removeAmenityField = (index) => {
-        const updatedAmenities = amenities.filter((_, i) => i !== index);
-        setAmenities(updatedAmenities);
-    };
-    const handleAllocatedToChange = (index, value) => {
-        const updatedAllocatedTo = [...allocatedTo];
-        updatedAllocatedTo[index] = value;
-        setAllocatedTo(updatedAllocatedTo);
-    };
-
-    const addOccupantField = () => {
-        setAllocatedTo([...allocatedTo, '']);
+        if (roomDetails.amenities.length > 1) {
+            setRoomDetails(prev => ({
+                ...prev,
+                amenities: prev.amenities.filter((_, i) => i !== index)
+            }));
+        }
     };
 
-    const removeOccupantField = (index) => {
-        const updatedAllocatedTo = allocatedTo.filter((_, i) => i !== index);
-        setAllocatedTo(updatedAllocatedTo);
-    };
-
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-
-        const roomData = {
-            roomNo,
-            capacity: parseInt(capacity),
-            amenities,
-            roomType,
-            feesPerSemester: parseFloat(feesPerSemester)
-        };
-        console.log("Room Data:", roomData); // Debug log
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+        setError(null);
 
         try {
             const response = await fetch('http://localhost:5000/api/rooms', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(roomData)
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    ...roomDetails,
+                    capacity: parseInt(roomDetails.capacity),
+                    feesPerSemester: parseFloat(roomDetails.feesPerSemester)
+                })
             });
 
-            if (response.ok) {
-                alert('Room created successfully!');
-                navigate('/room-management');
-            } else {
-                alert('Error creating room. Please try again.');
-            }
+            if (!response.ok) throw new Error('Failed to create room');
+            navigate('/room-management');
         } catch (error) {
-            console.error('Error:', error);
-            alert('An error occurred. Please try again.');
+            setError('Failed to create room. Please try again.');
+        } finally {
+            setLoading(false);
         }
     };
 
     return (
         <div className={styles.container}>
-            <h1>Add New Room</h1>
-            <form onSubmit={handleSubmit}>
-                <div className={styles.formGroup}>
-                    <label htmlFor="roomNo">Room Number</label>
-                    <input type="text" id="roomNo" value={roomNo} onChange={(e) => setRoomNo(e.target.value)} required />
-                </div>
-                <div className={styles.formGroup}>
-                    <label htmlFor="capacity">Capacity</label>
-                    <input type="number" id="capacity" value={capacity} onChange={(e) => setCapacity(e.target.value)} required />
-                </div>
-                <div className={styles.formGroup}>
-                    <label htmlFor="amenities">Amenities</label>
-                    {amenities.map((amenity, index) => (
-                        <div key={index} className={styles.amenityGroup}>
-                            <input
-                                type="text"
-                                value={amenity}
-                                onChange={(e) => handleAmenityChange(index, e.target.value)}
-                                placeholder="Amenity"
-                            />
-                            {index > 0 && (
-                                <button type="button" onClick={() => removeAmenityField(index)}>Remove</button>
-                            )}
-                        </div>
-                    ))}
-                    <button type="button" onClick={addAmenityField}>Add Amenity</button>
+            <div className={styles.formCard}>
+                <div className={styles.formHeader}>
+                    <h2>Add New Room</h2>
                 </div>
 
-                <div className={styles.formGroup}>
-                    <label htmlFor="roomType">Room Type</label>
-                    <select id="roomType" value={roomType} onChange={(e) => setRoomType(e.target.value)}>
-                        <option value="Single">Single</option>
-                        <option value="Double">Double</option>
-                        <option value="Shared">Shared</option>
-                    </select>
-                </div>
-                <div className={styles.formGroup}>
-                    <label htmlFor="feesPerSemester">Fees per Semester</label>
-                    <input type="number" id="feesPerSemester" value={feesPerSemester} onChange={(e) => setFeesPerSemester(e.target.value)} required />
-                </div>
-                <button type="submit" className={styles.btnPrimary}>Create Room</button>
-            </form>
+                {error && <div className={styles.errorMessage}>{error}</div>}
+
+                <form onSubmit={handleSubmit} className={styles.form}>
+                    <div className={styles.formGrid}>
+                        <div className={styles.formGroup}>
+                            <label htmlFor="roomNo">Room Number</label>
+                            <input
+                                type="text"
+                                id="roomNo"
+                                name="roomNo"
+                                value={roomDetails.roomNo}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
+
+                        <div className={styles.formGroup}>
+                            <label htmlFor="capacity">Capacity</label>
+                            <input
+                                type="number"
+                                id="capacity"
+                                name="capacity"
+                                value={roomDetails.capacity}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
+
+                        <div className={styles.formGroup}>
+                            <label htmlFor="roomType">Room Type</label>
+                            <select
+                                id="roomType"
+                                name="roomType"
+                                value={roomDetails.roomType}
+                                onChange={handleChange}
+                            >
+                                <option value="Single">Single</option>
+                                <option value="Double">Double</option>
+                                <option value="Shared">Shared</option>
+                            </select>
+                        </div>
+
+                        <div className={styles.formGroup}>
+                            <label htmlFor="feesPerSemester">Fees per Semester</label>
+                            <input
+                                type="number"
+                                id="feesPerSemester"
+                                name="feesPerSemester"
+                                value={roomDetails.feesPerSemester}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
+                    </div>
+
+                    <div className={styles.amenitiesSection}>
+                        <label>Amenities</label>
+                        {roomDetails.amenities.map((amenity, index) => (
+                            <div key={index} className={styles.amenityGroup}>
+                                <input
+                                    type="text"
+                                    value={amenity}
+                                    onChange={(e) => handleAmenityChange(index, e.target.value)}
+                                    placeholder="Enter amenity"
+                                />
+                                {roomDetails.amenities.length > 1 && (
+                                    <button 
+                                        type="button" 
+                                        onClick={() => removeAmenityField(index)}
+                                        className={styles.removeButton}
+                                    >
+                                        Remove
+                                    </button>
+                                )}
+                            </div>
+                        ))}
+                        <button 
+                            type="button" 
+                            onClick={addAmenityField}
+                            className={styles.addButton}
+                        >
+                            Add Amenity
+                        </button>
+                    </div>
+
+                    <div className={styles.buttonGroup}>
+                        <button 
+                            type="button" 
+                            onClick={() => navigate('/room-management')}
+                            className={styles.cancelButton}
+                        >
+                            Cancel
+                        </button>
+                        <button 
+                            type="submit" 
+                            className={styles.submitButton}
+                            disabled={loading}
+                        >
+                            {loading ? 'Creating...' : 'Create Room'}
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
     );
 };

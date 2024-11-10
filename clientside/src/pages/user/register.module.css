@@ -1,69 +1,268 @@
 /* registration.module.css */
 
-/* Basic styling for the registration container */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+.pageContainer {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 1.5rem;
+  font-family: 'Inter', sans-serif;
+}
+
 .container {
-    max-width: 400px; /* Set a maximum width for the form */
-    margin: 50px auto; /* Center the form on the page */
-    padding: 20px; /* Add some padding */
-    border: 1px solid #ccc; /* Add a light border */
-    border-radius: 8px; /* Rounded corners */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
-    background-color: #fff; /* White background */
+  width: 100%;
+  max-width: 480px;
+  padding: 2.5rem;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 0.5s ease-out;
 }
 
-/* Styling for the form title */
-.header {
-    text-align: center; /* Center the heading */
-    color: #333; /* Dark color for the text */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-/* Style for the form groups */
+.formHeader {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.formHeader h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #2d3748;
+  margin-bottom: 0.5rem;
+}
+
+.formHeader p {
+  color: #718096;
+  font-size: 0.95rem;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
 .formGroup {
-    margin-bottom: 15px; /* Spacing between form groups */
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
-/* Style for the input fields */
-input[type="text"],
-input[type="email"],
-input[type="password"] {
-    width: 100%; /* Full width */
-    padding: 10px; /* Padding inside the input */
-    margin-top: 5px; /* Margin above the input */
-    border: 1px solid #ccc; /* Light border */
-    border-radius: 4px; /* Rounded corners */
+.labelText {
+  color: #4a5568;
+  font-size: 0.9rem;
+  font-weight: 500;
 }
 
-/* Styling for the submit button */
+.inputWrapper {
+  position: relative;
+}
+
+.inputIcon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.1rem;
+  color: #a0aec0;
+  transition: color 0.2s ease;
+}
+
+.input {
+  width: 100%;
+  padding: 0.75rem 1rem 0.75rem 2.75rem;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  color: #2d3748;
+  transition: all 0.2s ease;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.input::placeholder {
+  color: #a0aec0;
+}
+
 .btnPrimary {
-    width: 100%; /* Full width */
-    padding: 10px; /* Padding inside the button */
-    margin-top: 10px; /* Margin above the button */
-    background-color: #007bff; /* Bootstrap primary color */
-    color: white; /* White text color */
-    border: none; /* No border */
-    border-radius: 4px; /* Rounded corners */
-    cursor: pointer; /* Pointer cursor on hover */
-    font-size: 16px; /* Font size */
+  width: 100%;
+  padding: 0.875rem;
+  background: linear-gradient(to right, #667eea, #764ba2);
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 0.5rem;
 }
 
-/* Button hover effect */
-.btnPrimary:hover {
-    background-color: #0056b3; /* Darker shade on hover */
+.btnPrimary:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
 }
 
-/* Style for error messages */
-.error {
-    color: #d9534f; /* Red color for error messages */
-    text-align: center; /* Center the error message */
+.btnPrimary:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
 }
 
-/* Style for success messages */
-.success {
-    color: #5cb85c; /* Green color for success messages */
-    text-align: center; /* Center the success message */
+.btnPrimary.loading {
+  position: relative;
+  color: transparent;
 }
 
-/* Style for the login link */
+.btnPrimary.loading::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 20px;
+  height: 20px;
+  margin: -10px 0 0 -10px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.errorContainer, .successContainer {
+  padding: 0.875rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.errorContainer {
+  background: #fff5f5;
+  border: 1px solid #feb2b2;
+}
+
+.successContainer {
+  background: #f0fff4;
+  border: 1px solid #9ae6b4;
+}
+
+.errorMessage {
+  color: #e53e3e;
+  font-size: 0.875rem;
+  margin: 0;
+}
+
+.successMessage {
+  color: #38a169;
+  font-size: 0.875rem;
+  margin: 0;
+}
+
+.formFooter {
+  margin-top: 2rem;
+  text-align: center;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e2e8f0;
+}
+
 .loginLink {
-    text-align: center; /* Center the login link */
+  color: #718096;
+  font-size: 0.9rem;
+}
+
+.link {
+  color: #667eea;
+  font-weight: 500;
+  text-decoration: none;
+  margin-left: 0.5rem;
+  transition: color 0.2s ease;
+}
+
+.link:hover {
+  color: #764ba2;
+  text-decoration: underline;
+}
+
+/* Enhanced Responsive Design */
+@media (max-width: 640px) {
+  .pageContainer {
+    padding: 1rem;
+    background: linear-gradient(150deg, #667eea 0%, #764ba2 100%);
+  }
+
+  .container {
+    padding: 2rem;
+    border-radius: 12px;
+  }
+
+  .formHeader h1 {
+    font-size: 1.75rem;
+  }
+
+  .formHeader p {
+    font-size: 0.875rem;
+  }
+
+  .input {
+    font-size: 0.9rem;
+    padding: 0.75rem 1rem 0.75rem 2.5rem;
+  }
+
+  .btnPrimary {
+    padding: 0.75rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .container {
+    padding: 1.5rem;
+  }
+
+  .formHeader h1 {
+    font-size: 1.5rem;
+  }
+
+  .input {
+    padding: 0.625rem 1rem 0.625rem 2.25rem;
+  }
+
+  .inputIcon {
+    font-size: 1rem;
+  }
+}
+
+/* Accessibility Improvements */
+@media (prefers-reduced-motion: reduce) {
+  .container {
+    animation: none;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .container {
+    background: rgba(255, 255, 255, 0.98);
+  }
 }

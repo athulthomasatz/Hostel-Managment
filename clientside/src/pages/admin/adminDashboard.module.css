@@ -1,0 +1,219 @@
+.dashboardContainer {
+    min-height: 100vh;
+    background-color: #1a1a1a;
+    color: #ffffff;
+}
+
+.navbar {
+    background-color: #2d2d2d;
+    padding: 1rem 2rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.navContent {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: 1px;
+}
+
+.userSection {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.username {
+    font-size: 0.95rem;
+    color: #e2e8f0;
+}
+
+.logoutButton {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 6px;
+    background-color: #e53e3e;
+    color: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.logoutButton:hover {
+    background-color: #c53030;
+    transform: translateY(-1px);
+}
+
+.mainContent {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.dashboardHeader {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.dashboardHeader h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    color: #ffffff;
+}
+
+.dashboardHeader p {
+    color: #a0aec0;
+    font-size: 1.1rem;
+}
+
+.cardGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    padding: 1rem;
+}
+
+.card {
+    background: #2d2d2d;
+    border-radius: 12px;
+    padding: 1.5rem;
+    text-decoration: none;
+    color: white;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    background: #363636;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.cardIcon {
+    font-size: 2rem;
+    margin-right: 1rem;
+    color: #4299e1;
+    transition: all 0.3s ease;
+}
+
+.card:hover .cardIcon {
+    transform: scale(1.1);
+}
+
+.cardContent {
+    flex: 1;
+}
+
+.cardContent h3 {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+    color: #ffffff;
+}
+
+.cardContent p {
+    color: #a0aec0;
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.cardArrow {
+    position: absolute;
+    right: 1.5rem;
+    font-size: 1.5rem;
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: all 0.3s ease;
+    color: #4299e1;
+}
+
+.card:hover .cardArrow {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .mainContent {
+        padding: 1.5rem;
+    }
+
+    .cardGrid {
+        gap: 1.5rem;
+    }
+
+    .dashboardHeader h1 {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .navbar {
+        padding: 1rem;
+    }
+
+    .navContent {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+
+    .userSection {
+        flex-direction: column;
+    }
+
+    .dashboardHeader {
+        margin-bottom: 2rem;
+    }
+
+    .dashboardHeader h1 {
+        font-size: 1.75rem;
+    }
+
+    .dashboardHeader p {
+        font-size: 1rem;
+    }
+
+    .cardGrid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .mainContent {
+        padding: 1rem;
+    }
+
+    .card {
+        padding: 1.25rem;
+    }
+
+    .cardIcon {
+        font-size: 1.5rem;
+    }
+
+    .cardContent h3 {
+        font-size: 1.1rem;
+    }
+
+    .cardContent p {
+        font-size: 0.85rem;
+    }
+
+    .dashboardHeader h1 {
+        font-size: 1.5rem;
+    }
+} 

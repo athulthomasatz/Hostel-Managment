@@ -1,30 +1,35 @@
 import React, { useState } from 'react';
-import styles from './register.module.css'; // Import the CSS module
+import styles from './register.module.css';
 
 export default function Register() {
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [error, setError] = useState(null); // State to handle error messages
-  const [success, setSuccess] = useState(null); // State to handle success messages
-  const [loading, setLoading] = useState(false); // State to handle loading
+  const [formData, setFormData] = useState({
+    username: '',
+    email: '',
+    password: '',
+    confirmPassword: ''
+  });
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent the default form submission behavior also avoid page refreshing
-
-    if (password !== confirmPassword) {
-      setError("Passwords do not match.");
+    e.preventDefault();
+    
+    if (formData.password !== formData.confirmPassword) {
+      setError("Passwords do not match");
       return;
     }
 
-    const trimmedUsername = username.trim();
-    const trimmedEmail = email.trim();
-    const trimmedPassword = password.trim();
-
-    // Optionally, you can add more validation here (e.g., email format)
-
-    setLoading(true); // Start loading state
+    setIsLoading(true);
+    setError(null);
 
     try {
       const response = await fetch('http://localhost:5000/auth/api/register', {
@@ -32,96 +37,148 @@ export default function Register() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ username: trimmedUsername, email: trimmedEmail, password: trimmedPassword }), // Send trimmed data as JSON
+        body: JSON.stringify({
+          username: formData.username.trim(),
+          email: formData.email.trim(),
+          password: formData.password.trim()
+        }),
       });
-      console.log("response below ");
-      console.log(response);
-      console.log("response above ");
       
       const data = await response.json();
-      console.log(data);
       
       if (response.ok) {
-        // Handle successful registration
-        setSuccess('Registration successful! Please log in.'); // Update success message
-        setError(null); // Clear error message
-        setUsername(''); // Clear input fields
-        setEmail('');
-        setPassword('');
-        setConfirmPassword('');
+        setSuccess('Registration successful! Please log in.');
+        setFormData({
+          username: '',
+          email: '',
+          password: '',
+          confirmPassword: ''
+        });
       } else {
-        // Handle errors (e.g., user already exists)
-        console.error('Registration error:', data);
-        setError(data.message || 'Registration failed. Please try again.'); // Update error message
-        setSuccess(null); // Clear success message
+        setError(data.message || 'Registration failed. Please try again.');
       }
     } catch (err) {
-      // Handle network or server errors
-      console.error('Network error:', err);
-      setError('An error occurred. Please try again later.');
-      setSuccess(null); // Clear success message
+      setError('Network error. Please check your connection.');
     } finally {
-      setLoading(false); // Stop loading state
+      setIsLoading(false);
     }
   };
 
   return (
-    <div className={styles.container}>
-      <h1 className={styles.header}>Register</h1>
-      {error && <p className={styles.error}>{error}</p>} {/* Display error message */}
-      {success && <p className={styles.success}>{success}</p>} {/* Display success message */}
-      <form className={styles.form} onSubmit={handleSubmit}> {/* Attach handleSubmit to form */}
-        <div className={styles.formGroup}>
-          <label htmlFor="username">Username:</label>
-          <input
-            type="text"
-            id="username"
-            name="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)} // Update state on input change
-            required
-          />
+    <div className={styles.pageContainer}>
+      <div className={styles.container}>
+        <div className={styles.formHeader}>
+          <h1>Create Account</h1>
+          <p>Join us to manage your hostel experience</p>
         </div>
-        <div className={styles.formGroup}>
-          <label htmlFor="email">Email:</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)} // Update state on input change
-            required
-          />
-        </div>
-        <div className={styles.formGroup}>
-          <label htmlFor="password">Password:</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)} // Update state on input change
-            required
-          />
-        </div>
-        <div className={styles.formGroup}>
-          <label htmlFor="confirmPassword">Confirm Password:</label>
-          <input
-            type="password"
-            id="confirmPassword"
-            name="confirmPassword"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)} // Update state on input change
-            required
-          />
-        </div>
-        <div className={styles.buttonContainer}>
-          <button type="submit" className={styles.btnPrimary} disabled={loading}>
-            {loading ? 'Registering...' : 'Register'}
+
+        {error && (
+          <div className={styles.errorContainer}>
+            <span className={styles.errorIcon}>⚠️</span>
+            <p className={styles.errorMessage}>{error}</p>
+          </div>
+        )}
+
+        {success && (
+          <div className={styles.successContainer}>
+            <span className={styles.successIcon}>✅</span>
+            <p className={styles.successMessage}>{success}</p>
+          </div>
+        )}
+
+        <form className={styles.form} onSubmit={handleSubmit}>
+          <div className={styles.formGroup}>
+            <label htmlFor="username">
+              <span className={styles.labelText}>Username</span>
+            </label>
+            <div className={styles.inputWrapper}>
+              <span className={styles.inputIcon}>👤</span>
+              <input
+                type="text"
+                id="username"
+                name="username"
+                value={formData.username}
+                onChange={handleChange}
+                placeholder="Choose a username"
+                required
+                className={styles.input}
+              />
+            </div>
+          </div>
+
+          <div className={styles.formGroup}>
+            <label htmlFor="email">
+              <span className={styles.labelText}>Email</span>
+            </label>
+            <div className={styles.inputWrapper}>
+              <span className={styles.inputIcon}>📧</span>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="Enter your email"
+                required
+                className={styles.input}
+              />
+            </div>
+          </div>
+
+          <div className={styles.formGroup}>
+            <label htmlFor="password">
+              <span className={styles.labelText}>Password</span>
+            </label>
+            <div className={styles.inputWrapper}>
+              <span className={styles.inputIcon}>🔒</span>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                placeholder="Create a password"
+                required
+                className={styles.input}
+              />
+            </div>
+          </div>
+
+          <div className={styles.formGroup}>
+            <label htmlFor="confirmPassword">
+              <span className={styles.labelText}>Confirm Password</span>
+            </label>
+            <div className={styles.inputWrapper}>
+              <span className={styles.inputIcon}>🔒</span>
+              <input
+                type="password"
+                id="confirmPassword"
+                name="confirmPassword"
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                placeholder="Confirm your password"
+                required
+                className={styles.input}
+              />
+            </div>
+          </div>
+
+          <button 
+            type="submit" 
+            className={`${styles.btnPrimary} ${isLoading ? styles.loading : ''}`}
+            disabled={isLoading}
+          >
+            {isLoading ? 'Creating Account...' : 'Create Account'}
           </button>
-        </div>
-        <p className={styles.loginLink}>Already have an account? <a href="/login">Login</a></p>
-      </form>
+
+          <div className={styles.formFooter}>
+            <p className={styles.loginLink}>
+              Already have an account? 
+              <a href="/login" className={styles.link}>Sign In</a>
+            </p>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }

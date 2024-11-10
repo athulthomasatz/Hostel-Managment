@@ -1,48 +1,181 @@
-.boxContainer {
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.header {
     display: flex;
-    flex-wrap: wrap; /* Allows the boxes to wrap into new rows */
-    gap: 20px; /* Space between boxes */
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
 }
 
-.notificationBox {
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    padding: 15px;
-    background-color: #f9f9f9;
-    flex: 1 1 calc(30% - 20px); /* 3 boxes in a row with some margin */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s; /* Smooth hover effect */
+.header h1 {
+    margin: 0;
+    color: #2d3748;
+    font-size: 1.75rem;
 }
 
-.notificationBox:hover {
-    transform: scale(1.02); /* Slightly enlarge on hover */
-}
-.btnUpdate {
-    background-color: #28a745; /* Green color */
+.addButton {
+    padding: 0.75rem 1.5rem;
+    background-color: #4299e1;
     color: white;
     border: none;
-    padding: 5px 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-right: 10px; /* Space between buttons */
-}
-
-.btnDelete {
-    background-color: red;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.btnAdd {
-    display: block;
-    margin: 20px auto;
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: white;
-    text-align: center;
-    border-radius: 5px;
+    border-radius: 8px;
     text-decoration: none;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.addButton:hover {
+    background-color: #3182ce;
+    transform: translateY(-1px);
+}
+
+.notificationGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.notificationCard {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.2s ease;
+}
+
+.notificationCard:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.cardHeader {
+    background: #f8f9fa;
+    padding: 1rem;
+    border-bottom: 1px solid #eee;
+}
+
+.cardHeader h3 {
+    margin: 0;
+    color: #2d3748;
+    font-size: 1.1rem;
+}
+
+.date {
+    display: block;
+    color: #718096;
+    font-size: 0.85rem;
+    margin-top: 0.25rem;
+}
+
+.content {
+    padding: 1rem;
+    color: #4a5568;
+    line-height: 1.5;
+}
+
+.content p {
+    margin: 0;
+}
+
+.actions {
+    padding: 1rem;
+    display: flex;
+    gap: 1rem;
+    border-top: 1px solid #eee;
+}
+
+.updateButton, .deleteButton {
+    flex: 1;
+    padding: 0.5rem;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.updateButton {
+    background-color: #edf2f7;
+    color: #4a5568;
+}
+
+.updateButton:hover {
+    background-color: #e2e8f0;
+}
+
+.deleteButton {
+    background-color: #fff5f5;
+    color: #e53e3e;
+}
+
+.deleteButton:hover {
+    background-color: #fed7d7;
+}
+
+.loadingState, .errorState, .emptyState {
+    text-align: center;
+    padding: 3rem;
+    color: #4a5568;
+    font-size: 1.1rem;
+}
+
+.errorState {
+    color: #e53e3e;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+    }
+
+    .header {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+        margin-bottom: 1.5rem;
+    }
+
+    .addButton {
+        width: 100%;
+    }
+
+    .notificationGrid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .header h1 {
+        font-size: 1.5rem;
+    }
+
+    .notificationCard {
+        border-radius: 8px;
+    }
+
+    .cardHeader {
+        padding: 0.75rem;
+    }
+
+    .content {
+        padding: 0.75rem;
+    }
+
+    .actions {
+        padding: 0.75rem;
+        flex-direction: column;
+    }
+
+    .updateButton, .deleteButton {
+        width: 100%;
+    }
 }

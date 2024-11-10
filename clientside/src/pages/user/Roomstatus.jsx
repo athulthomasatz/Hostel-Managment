@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import RoomModal from '../user/RoomModal'; // Adjust the path if needed
-
-import styles from './roomstatus.module.css'; // Assuming you have a CSS module for styling
+import { useNavigate } from 'react-router-dom';
+import RoomModal from './RoomModal';
+import styles from './roomstatus.module.css';
 
 const RoomStatus = () => {
     const [rooms, setRooms] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [showModal, setShowModal] = useState(false); // State to control modal visibility
-    const [selectedRoom, setSelectedRoom] = useState(null); // State to store selected room details
+    const [showModal, setShowModal] = useState(false);
+    const [selectedRoom, setSelectedRoom] = useState(null);
     const navigate = useNavigate();
+
     useEffect(() => {
         const fetchRooms = async () => {
             try {
@@ -30,8 +30,8 @@ const RoomStatus = () => {
         fetchRooms();
     }, []);
 
-    const getRoomClass = (status) => {
-        switch (status) {
+    const getRoomStatusClass = (status) => {
+        switch (status.toLowerCase()) {
             case 'available':
                 return styles.available;
             case 'maintenance':
@@ -44,7 +44,6 @@ const RoomStatus = () => {
     };
 
     const handleViewMore = (room) => {
-        console.log('Selected Room:', room);
         setSelectedRoom(room);
         setShowModal(true);
     };
@@ -55,32 +54,61 @@ const RoomStatus = () => {
     };
 
     const handleBook = (room) => {
-        console.log(`Booking room ${room}`);
         navigate(`/book/${room._id}`, { state: { room } });
     };
 
-    if (loading) return <div>Loading rooms...</div>;
-    if (error) return <div>Error fetching rooms: {error}</div>;
+    if (loading) return <div className={styles.loadingContainer}>Loading rooms...</div>;
+    if (error) return <div className={styles.errorContainer}>{error}</div>;
 
     return (
-        <div>
-            <h2>Room Status</h2>
-            <div className={styles.roomContainer}>
+        <div className={styles.container}>
+            <div className={styles.header}>
+                <h2>Room Status</h2>
+                <div className={styles.statusLegend}>
+                    <span className={`${styles.legendItem} ${styles.available}`}>Available</span>
+                    <span className={`${styles.legendItem} ${styles.maintenance}`}>Maintenance</span>
+                    <span className={`${styles.legendItem} ${styles.notAvailable}`}>Not Available</span>
+                </div>
+            </div>
+
+            <div className={styles.roomGrid}>
                 {rooms.map((room) => (
-                    <div key={room._id} className={`${styles.roomCard} ${getRoomClass(room.status)}`}>
-                        <h3 className={styles.roomTitle}>Room No: {room.roomNo}</h3>
-                        <p className={styles.roomInfo}>Capacity: {room.capacity}</p>
-                        <p className={styles.roomInfo}>Current Occupants: {room.currentOccupants}</p>
-                        <p className={styles.roomInfo}>Status: {room.status}</p>
-                        <button className={styles.button} onClick={() => handleViewMore(room)}>View More</button>
-                        <button className={styles.button} onClick={() => handleBook(room)}>Book</button>
+                    <div 
+                        key={room._id} 
+                        className={`${styles.roomCard} ${getRoomStatusClass(room.status)}`}
+                    >
+                        <div className={styles.roomHeader}>
+                            <h3>Room {room.roomNo}</h3>
+                            <span className={styles.statusBadge}>{room.status}</span>
+                        </div>
                         
+                        <div className={styles.roomInfo}>
+                            <p>Capacity: {room.capacity}</p>
+                            <p>Current Occupants: {room.currentOccupants}</p>
+                        </div>
+
+                        <div className={styles.buttonGroup}>
+                            <button 
+                                className={styles.viewButton}
+                                onClick={() => handleViewMore(room)}
+                            >
+                                View Details
+                            </button>
+                            <button 
+                                className={styles.bookButton}
+                                onClick={() => handleBook(room)}
+                                disabled={room.status.toLowerCase() !== 'available'}
+                            >
+                                Book Room
+                            </button>
+                        </div>
                     </div>
                 ))}
             </div>
-            {/* Render the RoomModal and pass the selected room data */}
+
             <RoomModal show={showModal} onClose={handleCloseModal} room={selectedRoom} />
         </div>
     );
 };
+
 export default RoomStatus;

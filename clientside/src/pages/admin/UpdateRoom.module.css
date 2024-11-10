@@ -1,56 +1,183 @@
 /* UpdateRoom.module.css */
 .container {
-    max-width: 500px; /* Set a maximum width for the form */
-    margin: 40px auto; /* Center the form on the page */
-    padding: 20px; /* Add padding inside the container */
-    border: 1px solid #ccc; /* Light border around the form */
-    border-radius: 10px; /* Rounded corners */
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Slight shadow for depth */
-    background-color: #fff; /* White background for better contrast */
+    max-width: 1000px;
+    margin: 2rem auto;
+    padding: 0 20px;
 }
 
-h1 {
-    text-align: center; /* Center the header */
-    margin-bottom: 20px; /* Space below the header */
-    color: #333; /* Darker color for the header */
+.formCard {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.formHeader {
+    background: #f8f9fa;
+    padding: 1.5rem;
+    border-bottom: 1px solid #eee;
+    text-align: center;
+}
+
+.formHeader h2 {
+    margin: 0;
+    color: #2d3748;
+    font-size: 1.5rem;
+}
+
+.form {
+    padding: 2rem;
+}
+
+.formGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
 }
 
 .formGroup {
-    margin-bottom: 15px; /* Space between form groups */
+    margin-bottom: 1.5rem;
 }
 
-label {
-    display: block; /* Labels as block elements for better layout */
-    margin-bottom: 5px; /* Space below labels */
-    font-weight: bold; /* Bold font for labels */
+.formGroup label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #4a5568;
+    font-size: 0.95rem;
+    font-weight: 500;
 }
 
-input,
-select {
-    width: 100%; /* Full width inputs and selects */
-    padding: 10px; /* Padding inside the inputs */
-    border: 1px solid #ccc; /* Border around the inputs */
-    border-radius: 5px; /* Rounded corners */
-    font-size: 16px; /* Font size for readability */
+.formGroup input,
+.formGroup select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 1rem;
+    background-color: #f8f9fa;
+    transition: all 0.2s ease;
 }
 
-input:focus,
-select:focus {
-    border-color: #007bff; /* Change border color on focus */
-    outline: none; /* Remove default outline */
+.formGroup input:focus,
+.formGroup select:focus {
+    outline: none;
+    border-color: #4299e1;
+    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.1);
 }
 
-.btnPrimary {
-    background-color: #007bff; /* Primary button color */
-    color: white; /* White text for button */
-    border: none; /* No border */
-    padding: 10px 20px; /* Padding inside the button */
-    border-radius: 5px; /* Rounded corners */
-    cursor: pointer; /* Pointer cursor on hover */
-    font-size: 16px; /* Font size for button text */
-    transition: background-color 0.3s; /* Smooth transition for background color */
+.searchResults {
+    list-style: none;
+    padding: 0;
+    margin: 0.5rem 0;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    max-height: 200px;
+    overflow-y: auto;
 }
 
-.btnPrimary:hover {
-    background-color: #0056b3; /* Darker blue on hover */
+.searchResultItem {
+    padding: 0.75rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.searchResultItem:hover {
+    background-color: #f8f9fa;
+}
+
+.buttonGroup {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.submitButton,
+.cancelButton {
+    flex: 1;
+    padding: 0.75rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.submitButton {
+    background-color: #4299e1;
+    color: white;
+}
+
+.submitButton:hover {
+    background-color: #3182ce;
+    transform: translateY(-1px);
+}
+
+.cancelButton {
+    background-color: #e2e8f0;
+    color: #4a5568;
+}
+
+.cancelButton:hover {
+    background-color: #cbd5e0;
+    transform: translateY(-1px);
+}
+
+.loadingState,
+.errorState {
+    text-align: center;
+    padding: 3rem;
+    color: #4a5568;
+    font-size: 1.1rem;
+}
+
+.errorState {
+    color: #e53e3e;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        margin: 1rem auto;
+        padding: 0 15px;
+    }
+
+    .formGrid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .form {
+        padding: 1.5rem;
+    }
+
+    .formHeader h2 {
+        font-size: 1.25rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .formCard {
+        border-radius: 0;
+        box-shadow: none;
+    }
+
+    .form {
+        padding: 1rem;
+    }
+
+    .buttonGroup {
+        flex-direction: column;
+    }
+
+    .submitButton,
+    .cancelButton {
+        width: 100%;
+    }
+
+    .formGroup input,
+    .formGroup select {
+        font-size: 16px; /* Prevents zoom on mobile */
+    }
 }

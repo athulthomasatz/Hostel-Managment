@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Row, Col, Card, Spinner, Button } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
+import { Spinner, Button } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+import styles from './profile.module.css';
 
 const Profile = () => {
     const [profileData, setProfileData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const navigate = useNavigate(); // Initialize useNavigate
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchProfileData = async () => {
@@ -34,50 +35,72 @@ const Profile = () => {
     }, []);
 
     const handleEditClick = () => {
-        navigate('/edit-profile'); // Navigate to the edit profile page
+        navigate('/edit-profile');
     };
 
-    if (loading) return <Spinner animation="border" />;
-    if (error) return <div>{error}</div>;
-    // Construct the profile photo URL
-    // const profilePhotoUrl = `http://localhost:5000/public/images/profileathul.jpeg`;
+    if (loading) return <div className={styles.loadingContainer}><Spinner animation="border" /></div>;
+    if (error) return <div className={styles.errorContainer}>{error}</div>;
 
     const profilePhotoUrl = profileData.profilePhoto
         ? `http://localhost:5000/${profileData.profilePhoto}`
-        : 'http://localhost:5000/public/images/AvatarProfile.png'; // Adjust with your default image URL
+        : 'http://localhost:5000/public/images/AvatarProfile.png';
+
     return (
-        <Container>
-            <h2>Profile</h2>
-            <Card>
-                <Card.Body>
-                    <Row>
-                        <Col>
-                            {/* Display the profile photo */}
-                            <img 
-                                src={profilePhotoUrl} 
-                                alt={`${profileData.username}'s Profile`}
-                                style={{ width: '100px', height: '100px', borderRadius: '50%' }} 
-                            />
-                            <p><strong>Name:</strong> {profileData.username}</p>
-                            <p><strong>Email:</strong> {profileData.email}</p>
+        <div className={styles.container}>
+            <div className={styles.profileCard}>
+                <div className={styles.profileHeader}>
+                    <h2>Profile Information</h2>
+                    <Button 
+                        variant="primary" 
+                        onClick={handleEditClick}
+                        className={styles.editButton}
+                    >
+                        Edit Profile
+                    </Button>
+                </div>
 
-                            {profileData.bookingDetails ? (
-                                <>
-                                    <h3>Booking Details</h3>
-                                    <p><strong>Room No:</strong> {profileData.bookingDetails.roomNo}</p>
-                                    <p><strong>Booking Status:</strong> {profileData.bookingDetails.bookingStatus}</p>
-                                    <p><strong>Fees per Semester:</strong> {profileData.bookingDetails.feesPerSemester}</p>
-                                </>
-                            ) : (
-                                <p>No booking found</p>
-                            )}
+                <div className={styles.profileContent}>
+                    <div className={styles.photoSection}>
+                        <img 
+                            src={profilePhotoUrl} 
+                            alt={`${profileData.username}'s Profile`}
+                            className={styles.profilePhoto}
+                        />
+                    </div>
 
-                            <Button variant="primary" onClick={handleEditClick}>Edit Profile</Button> {/* Edit Button */}
-                        </Col>
-                    </Row>
-                </Card.Body>
-            </Card>
-        </Container>
+                    <div className={styles.infoSection}>
+                        <div className={styles.infoItem}>
+                            <label>Name</label>
+                            <span>{profileData.username}</span>
+                        </div>
+                        <div className={styles.infoItem}>
+                            <label>Email</label>
+                            <span>{profileData.email}</span>
+                        </div>
+                    </div>
+
+                    {profileData.bookingDetails && (
+                        <div className={styles.bookingSection}>
+                            <h3>Booking Details</h3>
+                            <div className={styles.infoItem}>
+                                <label>Room No</label>
+                                <span>{profileData.bookingDetails.roomNo}</span>
+                            </div>
+                            <div className={styles.infoItem}>
+                                <label>Status</label>
+                                <span className={styles.bookingStatus}>
+                                    {profileData.bookingDetails.bookingStatus}
+                                </span>
+                            </div>
+                            <div className={styles.infoItem}>
+                                <label>Fees per Semester</label>
+                                <span>₹{profileData.bookingDetails.feesPerSemester}</span>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            </div>
+        </div>
     );
 };
 

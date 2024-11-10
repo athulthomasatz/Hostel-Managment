@@ -8,11 +8,14 @@ export default function Login() {
   const { login } = useAuth(); // Get login function from AuthContext
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState(null); // State to handle error messages
+  const [error, setError] = useState(null); // State to handle error messages 
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate(); // Initialize useNavigate
 
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent the default form submission behavior
+    setIsLoading(true);
+    setError(null);
 
     try {
       const response = await fetch('http://localhost:5000/auth/api/login', { 
@@ -37,49 +40,92 @@ export default function Login() {
       } else {
         // Handle errors (e.g., incorrect credentials)
         console.error('Login error:', data); // Log error details
-        setError(data.error || 'Login failed. Please try ag••••ain.'); // Update error message
+        setError(data.error || 'Invalid credentials. Please try again.'); // Update error message
       }
     } catch (err) {
       // Handle network or server errors
       console.error('Network error:', err); // Log network error
-      setError('An error occurred. Please try again later.');
+      setError('Network error. Please check your connection.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
 
   return (
-    <div className={styles.container}>
-      <h1 className={styles.header}>Login or Sign Up</h1>
-      {error && <p className={styles.error}>{error}</p>} {/* Display error message */}
-      <form className={styles.form} onSubmit={handleSubmit}> {/* Attach handleSubmit to form */}
-        <div className={styles.formGroup}>
-          <label htmlFor="username">Username:</label>
-          <input
-            type="text"
-            id="username"
-            name="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)} // Update state on input change
-            required
-          />
+    <div className={styles.pageContainer}>
+      <div className={styles.container}>
+        <div className={styles.formHeader}>
+          <h1>Welcome Back</h1>
+          <p>Please enter your credentials to continue</p>
         </div>
-        <div className={styles.formGroup}>
-          <label htmlFor="password">Password:</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)} // Update state on input change
-            required
-          />
-        </div>
-        <div className={styles.buttonContainer}>
-          <button type="submit" className={styles.btnPrimary}>Login</button>
-        </div>
-        <p className={styles.signupLink}>Don't have an account? <a href="/register">Sign Up</a></p>
-        <p className={styles.signupLink}>Are you a admin<a href='/admin/login'>Click here</a></p>
-      </form>
+
+        {error && (
+          <div className={styles.errorContainer}>
+            <span className={styles.errorIcon}>⚠️</span>
+            <p className={styles.errorMessage}>{error}</p>
+          </div>
+        )}
+
+        <form className={styles.form} onSubmit={handleSubmit}>
+          <div className={styles.formGroup}>
+            <label htmlFor="username">
+              <span className={styles.labelText}>Username</span>
+            </label>
+            <div className={styles.inputWrapper}>
+              <span className={styles.inputIcon}>👤</span>
+              <input
+                type="text"
+                id="username"
+                name="username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)} // Update state on input change
+                placeholder="Enter your username"
+                required
+                className={styles.input}
+              />
+            </div>
+          </div>
+
+          <div className={styles.formGroup}>
+            <label htmlFor="password">
+              <span className={styles.labelText}>Password</span>
+            </label>
+            <div className={styles.inputWrapper}>
+              <span className={styles.inputIcon}>🔒</span>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)} // Update state on input change
+                placeholder="Enter your password"
+                required
+                className={styles.input}
+              />
+            </div>
+          </div>
+
+          <button 
+            type="submit" 
+            className={`${styles.btnPrimary} ${isLoading ? styles.loading : ''}`}
+            disabled={isLoading}
+          >
+            {isLoading ? 'Signing in...' : 'Sign In'}
+          </button>
+
+          <div className={styles.formFooter}>
+            <p className={styles.signupLink}>
+              Don't have an account? 
+              <a href="/register" className={styles.link}>Sign Up</a>
+            </p>
+            <p className={styles.signupLink}>
+              Are you an admin? 
+              <a href='/admin/login' className={styles.link}>Login here</a>
+            </p>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }
