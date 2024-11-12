@@ -22,6 +22,7 @@ import BookRoom from "../pages/user/Bookroom";
 import Profile from "../pages/user/Profile";
 import EditProfile from "../pages/user/EditProfile";
 import Payment from "../pages/user/Payment";
+import ContactAndMore from "../pages/user/ContactAndMore";
 const router = createBrowserRouter([
     {
         path: '',
@@ -149,6 +150,10 @@ const router = createBrowserRouter([
                 <Payment />
             </ProtectedRoute>
         )
+    },
+    {
+        path: '/contact',
+        element: <ContactAndMore />
     }
 
 ]);
