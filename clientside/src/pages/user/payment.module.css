@@ -1,14 +1,15 @@
 .container {
-    max-width: 800px;
-    margin: 2rem auto;
-    padding: 0 20px;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 1rem;
 }
 
 .paymentCard {
     background: white;
     border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    margin-top: 2rem;
 }
 
 .cardHeader {
@@ -104,7 +105,7 @@
     font-weight: 500;
     cursor: pointer;
     transition: all 0.2s ease;
-    margin-top: 1rem;
+    margin-top: 1.5rem;
 }
 
 .payButton:hover:not(:disabled) {
@@ -137,19 +138,127 @@
     font-size: 1.1rem;
 }
 
+.upiSection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 2rem;
+}
+
+.qrCodeContainer {
+    background: white;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.upiInstructions {
+    text-align: center;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.upiDetails {
+    background: #f5f5f5;
+    padding: 1rem;
+    border-radius: 8px;
+    width: 100%;
+    text-align: center;
+}
+
+.paymentInfo {
+    background: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin: 1.5rem 0;
+    text-align: center;
+}
+
+.paymentInfo p {
+    margin: 0.5rem 0;
+    color: #4a5568;
+}
+
+.modalContent {
+    text-align: center;
+    padding: 1.5rem;
+}
+
+.modalContent h2 {
+    color: #2d3748;
+    margin-bottom: 0.5rem;
+}
+
+.qrCodeContainer {
+    margin: 2rem 0;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+}
+
+.qrCode {
+    max-width: 200px;
+    height: auto;
+}
+
+.upiDetails {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.upiDetails p {
+    margin: 0.5rem 0;
+    color: #4a5568;
+}
+
+.timerNote {
+    margin-top: 1rem;
+    padding: 0.5rem;
+    background-color: #edf2f7;
+    border-radius: 4px;
+    color: #2d3748;
+    font-weight: 500;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .container {
-        margin: 1rem auto;
-        padding: 0 15px;
+        padding: 0.5rem;
     }
-
-    .form {
-        padding: 1.5rem;
+    
+    .paymentCard {
+        padding: 1rem;
     }
-
+    
     .formRow {
-        grid-template-columns: 1fr;
+        flex-direction: column;
+    }
+    
+    .qrCodeContainer {
+        padding: 0.5rem;
+    }
+    
+    .qrCodeContainer canvas {
+        width: 200px !important;
+        height: 200px !important;
+    }
+
+    .modalContent {
+        padding: 1rem;
+    }
+    
+    .qrCode {
+        max-width: 180px;
+    }
+    
+    .upiDetails {
+        margin-top: 1rem;
+        padding: 0.8rem;
     }
 }
 

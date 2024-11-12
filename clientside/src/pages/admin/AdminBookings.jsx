@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Table, Button, Spinner } from 'react-bootstrap';
- 
+import { Container, Spinner } from 'react-bootstrap';
+import styles from './adminBookings.module.css';
+
 const AdminBookings = () => {
     const [bookings, setBookings] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -43,7 +44,6 @@ const AdminBookings = () => {
                 throw new Error('Network response was not ok');
             }
 
-            // Update state to reflect the approved booking
             setBookings(bookings.map(booking => 
                 booking._id === id ? { ...booking, status: 'confirmed' } : booking
             ));
@@ -53,38 +53,73 @@ const AdminBookings = () => {
         }
     };
 
-    if (loading) return <Spinner animation="border" />;
-    if (error) return <div>{error}</div>;
+    if (loading) return (
+        <div className={styles.loadingContainer}>
+            <Spinner animation="border" role="status">
+                <span className="visually-hidden">Loading...</span>
+            </Spinner>
+        </div>
+    );
+
+    if (error) return (
+        <div className={styles.errorContainer}>
+            <div className={styles.errorMessage}>{error}</div>
+        </div>
+    );
 
     return (
-        <Container>
-            <h2>Booked Rooms</h2>
-            <Table striped bordered hover>
-                <thead>
-                    <tr>
-                        <th>Room Name</th>
-                        <th>User Name</th>
-                        <th>Mobile Number</th>
-                        <th>Booking Date</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {bookings.map((booking) => (
-                        <tr key={booking._id}>
-                            <td>{booking.roomId.roomNo}</td>
-                            <td>{booking.name}</td>
-                            <td>{booking.mobileNumber}</td>
-                            <td>{new Date(booking.bookingDate).toLocaleDateString()}</td>
-                            <td>
-                                {booking.status === 'pending' && (
-                                    <Button onClick={() => handleApprove(booking._id)}>Approve</Button>
-                                )}
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </Table>
+        <Container className={styles.container}>
+            <div className={styles.header}>
+                <h2>Booked Rooms</h2>
+                <p>{bookings.length} total bookings</p>
+            </div>
+
+            <div className={styles.bookingsContainer}>
+                {bookings.map((booking) => (
+                    <div key={booking._id} className={styles.bookingCard}>
+                        <div className={styles.bookingHeader}>
+                            <span className={styles.roomNumber}>Room {booking.roomId.roomNo}</span>
+                            <span className={`${styles.status} ${styles[booking.status]}`}>
+                                {booking.status}
+                            </span>
+                        </div>
+                        
+                        <div className={styles.bookingDetails}>
+                            <div className={styles.detailRow}>
+                                <span className={styles.label}>Student Name:</span>
+                                <span className={styles.value}>{booking.name}</span>
+                            </div>
+                            
+                            <div className={styles.detailRow}>
+                                <span className={styles.label}>Mobile:</span>
+                                <span className={styles.value}>{booking.mobileNumber}</span>
+                            </div>
+                            
+                            <div className={styles.detailRow}>
+                                <span className={styles.label}>Booking Date:</span>
+                                <span className={styles.value}>
+                                    {new Date(booking.bookingDate).toLocaleDateString()}
+                                </span>
+                            </div>
+                        </div>
+
+                        {booking.status === 'pending' && (
+                            <button 
+                                className={styles.approveButton}
+                                onClick={() => handleApprove(booking._id)}
+                            >
+                                Approve Booking
+                            </button>
+                        )}
+                    </div>
+                ))}
+            </div>
+
+            {bookings.length === 0 && (
+                <div className={styles.noBookings}>
+                    No bookings found
+                </div>
+            )}
         </Container>
     );
 };

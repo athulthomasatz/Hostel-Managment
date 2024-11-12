@@ -21,6 +21,7 @@ import NoticePage from "../pages/user/NoticesPage";
 import BookRoom from "../pages/user/Bookroom";
 import Profile from "../pages/user/Profile";
 import EditProfile from "../pages/user/EditProfile";
+import Payment from "../pages/user/Payment";
 const router = createBrowserRouter([
     {
         path: '',
@@ -138,6 +139,14 @@ const router = createBrowserRouter([
         element:(
             <ProtectedRoute>
                 <AdminBookings />
+            </ProtectedRoute>
+        )
+    },
+    {
+        path: '/payment',
+        element: (
+            <ProtectedRoute>
+                <Payment />
             </ProtectedRoute>
         )
     }

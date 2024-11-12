@@ -22,7 +22,7 @@ export default function Dashboard() {
     {
       title: 'Fee Management',
       description: 'Track payments and manage your hostel fees.',
-      path: '/feemanagement',
+      path: '/payment',
       icon: '💰',
       tag: 'Payments'
     },
@@ -32,6 +32,13 @@ export default function Dashboard() {
       path: '/notices',
       icon: '📢',
       tag: 'Updates'
+    },
+    {
+      title: 'Contact & More',
+      description: 'Get in touch with us and find additional information.',
+      path: '/contact',
+      icon: '📞',
+      tag: 'Info'
     }
   ];
 
@@ -43,9 +50,6 @@ export default function Dashboard() {
           <div className={styles.headerContent}>
             <span className={styles.greeting}>Welcome back</span>
             <h1>Student Dashboard</h1>
-          </div>
-          <div className={styles.searchBar}>
-            <input type="text" placeholder="Search features..." />
           </div>
         </div>
 

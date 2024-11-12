@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
+import styles from './bookroom.module.css';
 
 const BookRoom = () => {
-    const { roomId } = useParams();  // Gets roomId from the URL
-    console.log("Roommmmmmmmmmmmmmmmcompenennen: ", roomId);
-    const [name, setName] = useState('');
-    const [mobileNumber, setMobileNumber] = useState('');
-    const [parentMobileNumber, setParentMobileNumber] = useState('');
+    const { roomId } = useParams();
+    const navigate = useNavigate();
+    const [formData, setFormData] = useState({
+        name: '',
+        mobileNumber: '',
+        parentMobileNumber: '',
+    });
     const [message, setMessage] = useState('');
     const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         const fetchUserName = async () => {
@@ -20,7 +24,7 @@ const BookRoom = () => {
 
                 if (response.ok) {
                     const data = await response.json();
-                    setName(data.username);  // Set the fetched username in the name field
+                    setFormData(prevState => ({ ...prevState, name: data.username }));
                 } else {
                     console.error("Failed to fetch user name");
                 }
@@ -32,17 +36,22 @@ const BookRoom = () => {
         fetchUserName();
     }, []);
 
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prevState => ({
+            ...prevState,
+            [name]: value
+        }));
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const token = localStorage.getItem('token');
+        setLoading(true);
+        setError('');
+        setMessage('');
 
-        const bookingData = {
-            roomId,
-            name,
-            mobileNumber,
-            parentMobileNumber,
-        };
-        console.log("Booking Data:", bookingData);
+        const token = localStorage.getItem('token');
+        const bookingData = { ...formData, roomId };
 
         try {
             const response = await fetch('http://localhost:5000/auth/api/book', {
@@ -54,53 +63,69 @@ const BookRoom = () => {
                 body: JSON.stringify(bookingData),
             });
 
+            const data = await response.json();
+
             if (response.ok) {
-                const data = await response.json();
                 setMessage(`Booking successful! Booking ID: ${data._id}`);
-                setError('');
-                // Optionally, reset the form
-                setName('');
-                setMobileNumber('');
-                setParentMobileNumber('');
+                setTimeout(() => navigate('/dashboard'), 3000); // Redirect after 3 seconds
             } else {
-                const errorData = await response.json();
-                setError(`Error creating booking: ${errorData.message}`);
-                setMessage('');
+                setError(data.message || 'Error creating booking');
             }
         } catch (error) {
             setError('An error occurred while booking the room. Please try again.');
-            setMessage('');
+        } finally {
+            setLoading(false);
         }
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <input
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="Your Name"
-                // readOnly
-                required
-            />
-            <input
-                type="text"
-                value={mobileNumber}
-                onChange={(e) => setMobileNumber(e.target.value)}
-                placeholder="Your Mobile Number"
-                required
-            />
-            <input
-                type="text"
-                value={parentMobileNumber}
-                onChange={(e) => setParentMobileNumber(e.target.value)}
-                placeholder="Parent Mobile Number"
-                required
-            />
-            <button type="submit">Book Room</button>
-            {message && <p style={{ color: 'green' }}>{message}</p>}
-            {error && <p style={{ color: 'red' }}>{error}</p>}
-        </form>
+        <div className={styles.container}>
+            <h2 className={styles.title}>Book a Room</h2>
+            <form onSubmit={handleSubmit} className={styles.form}>
+                <div className={styles.formGroup}>
+                    <label htmlFor="name">Your Name</label>
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleChange}
+                        placeholder="Your Name"
+                        required
+                        readOnly
+                    />
+                </div>
+                <div className={styles.formGroup}>
+                    <label htmlFor="mobileNumber">Your Mobile Number</label>
+                    <input
+                        type="tel"
+                        id="mobileNumber"
+                        name="mobileNumber"
+                        value={formData.mobileNumber}
+                        onChange={handleChange}
+                        placeholder="Your Mobile Number"
+                        required
+                    />
+                </div>
+                <div className={styles.formGroup}>
+                    <label htmlFor="parentMobileNumber">Parent Mobile Number</label>
+                    <input
+                        type="tel"
+                        id="parentMobileNumber"
+                        name="parentMobileNumber"
+                        value={formData.parentMobileNumber}
+                        onChange={handleChange}
+                        placeholder="Parent Mobile Number"
+                        required
+                    />
+                </div>
+                <button type="submit" className={styles.submitButton} disabled={loading}>
+                    {loading ? 'Booking...' : 'Book Room'}
+                </button>
+            </form>
+            {message && <p className={styles.successMessage}>{message}</p>}
+            {error && <p className={styles.errorMessage}>{error}</p>}
+        </div>
     );
 };
 
